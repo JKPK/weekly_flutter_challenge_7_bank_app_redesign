@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
@@ -71,27 +72,56 @@ class _BackgroundState extends State<Background>
             ),
           ),
         ),
-        _animationController.value==0? Center(
-          child: InkWell(
-            onTap: () {
-              _animationController.forward();
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width * .25,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: almostWhiteColor,
-                boxShadow: [
-                  BoxShadow(
-                    color: almostWhiteColor,
-                    blurRadius: 1,
-                    spreadRadius: 1,
-                  )
-                ],
-              ),
-            ),
-          ),
-        ):Center(),
+        _animationController.value == 0
+            ? Center(
+                child: InkWell(
+                  onTap: () {
+                    _animationController.forward();
+                  },
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 500),
+                    width: MediaQuery.of(context).size.width * .25,
+                    height: MediaQuery.of(context).size.width * .25,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(
+                          MediaQuery.of(context).size.width * .125,
+                        ),
+                      ),
+                      color: almostWhiteColor,
+                      boxShadow: [
+                        BoxShadow(
+                          color: almostWhiteColor,
+                          blurRadius: 0.5,
+                          spreadRadius: 0.5,
+                        )
+                      ],
+                    ),
+                    child: Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: redColor,
+                              width: 7.0,
+                            ),
+                          ),
+                        ),
+                        child: Text(
+                          "JK",
+                          style: TextStyle(
+                            height: 1,
+                            color: redColor,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : Center(),
       ],
     );
   }

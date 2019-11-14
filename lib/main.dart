@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'Weekly Flutter Challenge 7',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        fontFamily: 'Poppins',
         primarySwatch: Colors.grey,
       ),
       home: Scaffold(

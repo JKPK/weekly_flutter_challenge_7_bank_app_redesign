@@ -19,6 +19,9 @@ flutter:
   uses-material-design: true
   assets:
    - assets/images/app_background.png
+   - assets/images/app_background_single.png
+   - assets/images/girl.png
+   - assets/images/girl_shadow.png
 
   # fonts:
   #   - family: Schyler

@@ -14,10 +14,11 @@ class Background extends StatefulWidget {
   _BackgroundState createState() => _BackgroundState();
 }
 
-class _BackgroundState extends State<Background>
-    with SingleTickerProviderStateMixin {
+class _BackgroundState extends State<Background> with TickerProviderStateMixin {
   AnimationController _animationController;
   Animation<double> _animation;
+  AnimationController _logoAnimationController;
+  Animation<double> _logoAnimation;
 
   @override
   void initState() {
@@ -36,6 +37,27 @@ class _BackgroundState extends State<Background>
           widget.callbackFunction(_animationController.value);
         });
       });
+
+    _logoAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 1500,
+      ),
+    );
+
+    _logoAnimation = CurvedAnimation(
+      parent: _logoAnimationController,
+      curve: Curves.easeOutQuad,
+    )..addListener(() {
+        setState(() {});
+        if (_logoAnimationController.status == AnimationStatus.completed) {
+          _logoAnimationController.reverse();
+        } else if (_logoAnimationController.status ==
+            AnimationStatus.dismissed) {
+          _logoAnimationController.forward();
+        }
+      });
+    _logoAnimationController.forward();
     super.initState();
   }
 
@@ -84,14 +106,16 @@ class _BackgroundState extends State<Background>
                   onTap: () {
                     _animationController.forward();
                   },
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 500),
-                    width: MediaQuery.of(context).size.width * .25,
-                    height: MediaQuery.of(context).size.width * .25,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * .25 +
+                        10 * _logoAnimationController.value,
+                    height: MediaQuery.of(context).size.width * .25 +
+                        10 * _logoAnimationController.value,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(
                         Radius.circular(
-                          MediaQuery.of(context).size.width * .125,
+                          MediaQuery.of(context).size.width * .125 +
+                              5 * _logoAnimationController.value,
                         ),
                       ),
                       color: almostWhiteColor,

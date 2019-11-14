@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import '../styleguide.dart';
 
 class Background extends StatefulWidget {
+  final Function callbackFunction;
+
+  Background(this.callbackFunction);
+
   @override
   _BackgroundState createState() => _BackgroundState();
 }
@@ -28,7 +32,9 @@ class _BackgroundState extends State<Background>
       parent: _animationController,
       curve: Curves.easeIn,
     )..addListener(() {
-        setState(() {});
+        setState(() {
+          widget.callbackFunction(_animationController.value);
+        });
       });
     super.initState();
   }

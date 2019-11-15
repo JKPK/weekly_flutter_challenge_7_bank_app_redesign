@@ -54,7 +54,7 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
       logoPosition = Offset(
           bibCircleCentre.dx - 30 + bigCircleRadius * math.cos(logoCircleAngle),
           bibCircleCentre.dy -
-              30 +
+              40 +
               bigCircleRadius * math.sin(logoCircleAngle));
     });
   }
@@ -92,6 +92,7 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    updateAnimatedSlideIn();
     return Stack(
       children: <Widget>[
         MenuGirl(_logoAnimationController.value == 1),

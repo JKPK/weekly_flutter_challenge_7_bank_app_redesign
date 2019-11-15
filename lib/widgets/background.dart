@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui';
 
@@ -6,9 +7,9 @@ import 'package:flutter/material.dart';
 import '../styleguide.dart';
 
 class Background extends StatefulWidget {
-  final Function callbackFunction;
+  final StreamController<double> splashAnimationStreamController;
 
-  Background(this.callbackFunction);
+  Background(this.splashAnimationStreamController);
 
   @override
   _BackgroundState createState() => _BackgroundState();
@@ -34,7 +35,7 @@ class _BackgroundState extends State<Background> with TickerProviderStateMixin {
       curve: Curves.easeIn,
     )..addListener(() {
         setState(() {
-          widget.callbackFunction(_animationController.value);
+          widget.splashAnimationStreamController.add(_animationController.value);
         });
       });
 

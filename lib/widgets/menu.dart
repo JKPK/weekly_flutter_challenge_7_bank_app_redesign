@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import '../styleguide.dart';
-
 import 'package:flutter/material.dart';
+
+import '../widgets/menu_background.dart';
+import '../widgets/menu_girl.dart';
+import '../widgets/menu_logo.dart';
 
 class Menu extends StatefulWidget {
   StreamController<double> splashAnimationStreamController;
@@ -92,112 +94,10 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        Positioned(
-          top: 0,
-          left: 0,
-          child: AnimatedOpacity(
-            opacity: splashAnimation < 1 ? 0 : 1,
-            duration: Duration(milliseconds: 1000),
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * .05,
-              ),
-              alignment: Alignment.topCenter,
-              child: Image(
-                width: MediaQuery.of(context).size.width * .9,
-                image: AssetImage('assets/images/girl_shadow.png'),
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          top: 0,
-          left: 0,
-          child: AnimatedOpacity(
-            opacity: splashAnimation < 1 ? 0 : 1,
-            duration: Duration(milliseconds: 1000),
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * .05,
-              ),
-              alignment: Alignment.topCenter,
-              child: Image(
-                width: MediaQuery.of(context).size.width * .9,
-                image: AssetImage('assets/images/girl.png'),
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          child: ClipPath(
-            clipper: CircleCutClipper(backgroundTopMargin),
-            child: Container(
-              color: Colors.white,
-            ),
-          ),
-        ),
-        Positioned(
-          top: logoPosition.dy,
-          left: logoPosition.dx,
-          child: Container(
-            height: 60,
-            width: 60,
-            decoration: BoxDecoration(
-              color: redColor,
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: almostWhiteColor,
-                      width: 4.0,
-                    ),
-                  ),
-                ),
-                child: Text(
-                  "JK",
-                  style: TextStyle(
-                    height: 1,
-                    color: almostWhiteColor,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
+        MenuGirl(_logoAnimationController.value == 1),
+        MenuBackground(backgroundTopMargin),
+        MenuLogo(logoPosition),
       ],
     );
-  }
-}
-
-class CircleCutClipper extends CustomClipper<Path> {
-  double fromTop;
-  CircleCutClipper(this.fromTop);
-
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.addArc(
-      Rect.fromLTWH(
-        -size.width * 1.5,
-        -size.width * 3.2 - 330 + fromTop,
-        size.width * 4,
-        size.width * 4,
-      ),
-      0,
-      180 * (math.pi / 180.0),
-    );
-    path.lineTo(0, size.height);
-    path.lineTo(size.width, size.height);
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CircleCutClipper oldClipper) {
-    return oldClipper.fromTop != fromTop;
   }
 }

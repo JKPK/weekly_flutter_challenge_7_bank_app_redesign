@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import '../widgets/menu_background.dart';
 import '../widgets/menu_girl.dart';
 import '../widgets/menu_logo.dart';
+import '../widgets/menu_tile.dart';
+import '../widgets/buttons_tile.dart';
 
 class Menu extends StatefulWidget {
-  StreamController<double> splashAnimationStreamController;
+  final StreamController<double> splashAnimationStreamController;
 
   Menu(this.splashAnimationStreamController);
 
@@ -98,6 +100,27 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
         MenuGirl(_logoAnimationController.value == 1),
         MenuBackground(backgroundTopMargin),
         MenuLogo(logoPosition),
+        MenuTile(
+          title: "Use Conveniently",
+          subtitle: "Simplify access to desired operations.",
+          positionTop: backgroundTopMargin + 50,
+          image: AssetImage('assets/icons/power.png'),
+        ),
+        MenuTile(
+          title: "Control spending",
+          subtitle:
+              "We analyze your expenses and give advice on their optimization.",
+          positionTop: backgroundTopMargin + 150,
+          image: AssetImage('assets/icons/math.png'),
+        ),
+        MenuTile(
+          title: "Save and earn",
+          subtitle:
+              "Get an advice on how to get the cashback, interest and miles.",
+          positionTop: backgroundTopMargin + 250,
+          image: AssetImage('assets/icons/piggy.png'),
+        ),
+        ButtonsTile(positionTop: backgroundTopMargin + 410),
       ],
     );
   }

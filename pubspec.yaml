@@ -22,6 +22,10 @@ flutter:
    - assets/images/app_background_single.png
    - assets/images/girl.png
    - assets/images/girl_shadow.png
+   - assets/icons/gift.png
+   - assets/icons/math.png
+   - assets/icons/piggy.png
+   - assets/icons/power.png
 
   fonts:
     - family: Poppins

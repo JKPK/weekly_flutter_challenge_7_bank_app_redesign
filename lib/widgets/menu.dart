@@ -103,21 +103,21 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
         MenuTile(
           title: "Use Conveniently",
           subtitle: "Simplify access to desired operations.",
-          positionTop: backgroundTopMargin + 50,
+          positionTop: backgroundTopMargin + 50 + (1 - splashAnimation) * 200,
           image: AssetImage('assets/icons/power.png'),
         ),
         MenuTile(
           title: "Control spending",
           subtitle:
               "We analyze your expenses and give advice on their optimization.",
-          positionTop: backgroundTopMargin + 150,
+          positionTop: backgroundTopMargin + 150 + (1 - splashAnimation) * 400,
           image: AssetImage('assets/icons/math.png'),
         ),
         MenuTile(
           title: "Save and earn",
           subtitle:
               "Get an advice on how to get the cashback, interest and miles.",
-          positionTop: backgroundTopMargin + 250,
+          positionTop: backgroundTopMargin + 250 + (1 - splashAnimation) * 600,
           image: AssetImage('assets/icons/piggy.png'),
         ),
         ButtonsTile(positionTop: backgroundTopMargin + 410),

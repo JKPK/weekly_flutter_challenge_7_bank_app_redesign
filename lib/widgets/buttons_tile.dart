@@ -4,8 +4,9 @@ import '../styleguide.dart';
 
 class ButtonsTile extends StatelessWidget {
   final double positionTop;
+  final Function onTapFunction;
 
-  ButtonsTile({this.positionTop});
+  ButtonsTile({this.positionTop, this.onTapFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +19,12 @@ class ButtonsTile extends StatelessWidget {
             Button(
               text: "Login",
               color: seriouslyBlueColor,
-              callbackFunction: () {},
+              callbackFunction: onTapFunction,
             ),
             Button(
               text: "Order a card",
               color: redColor,
-              callbackFunction: () {},
+              callbackFunction: onTapFunction,
             ),
           ],
         ),

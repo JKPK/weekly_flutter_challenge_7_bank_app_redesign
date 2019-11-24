@@ -3,6 +3,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../styleguide.dart';
+
 import '../widgets/menu_background.dart';
 import '../widgets/menu_girl.dart';
 import '../widgets/menu_logo.dart';
@@ -18,10 +20,10 @@ class Menu extends StatefulWidget {
   _MenuState createState() => _MenuState();
 }
 
-class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
+class _MenuState extends State<Menu> with TickerProviderStateMixin {
   bool isInit = false;
   double backgroundTopMargin;
-  Offset bibCircleCentre;
+  Offset bigCircleCentre;
   double bigCircleRadius;
   double logoCircleAngle;
   Offset logoPosition;
@@ -30,6 +32,9 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
 
   AnimationController _logoAnimationController;
   Animation<double> _logoAnimation;
+
+  AnimationController _loanAnimationController;
+  Animation<double> _loanAnimation;
 
   @override
   void didChangeDependencies() {
@@ -44,20 +49,27 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
   void updateAnimatedSlideIn() {
     backgroundTopMargin = MediaQuery.of(context).size.height * 1.05 -
         MediaQuery.of(context).size.height * .657 * splashAnimation;
-    bibCircleCentre = Offset(MediaQuery.of(context).size.width * 0.5,
+    bigCircleCentre = Offset(MediaQuery.of(context).size.width * 0.5,
         -MediaQuery.of(context).size.width * 1.2 - 330 + backgroundTopMargin);
     bigCircleRadius = MediaQuery.of(context).size.width * 2;
   }
 
   void updateLogoPosition() {
     setState(() {
-      logoCircleAngle =
-          math.pi * .4 + math.pi * .1 * _logoAnimationController.value;
+      logoCircleAngle = math.pi * .4 +
+          math.pi * .1 * _logoAnimationController.value +
+          math.pi * .1 * _loanAnimationController.value;
+
       logoPosition = Offset(
-          bibCircleCentre.dx - 30 + bigCircleRadius * math.cos(logoCircleAngle),
-          bibCircleCentre.dy -
+          bigCircleCentre.dx -
+              30 +
+              bigCircleRadius * math.cos(logoCircleAngle) -
+              _loanAnimationController.value *
+                  MediaQuery.of(context).size.width,
+          bigCircleCentre.dy -
               40 +
-              bigCircleRadius * math.sin(logoCircleAngle));
+              bigCircleRadius * math.sin(logoCircleAngle) -
+              160 * _loanAnimationController.value);
     });
   }
 
@@ -89,7 +101,25 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
         updateLogoPosition();
       });
 
+    _loanAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 1500,
+      ),
+    );
+
+    _loanAnimation = CurvedAnimation(
+      parent: _loanAnimationController,
+      curve: Curves.easeIn,
+    )..addListener(() {
+        updateLogoPosition();
+      });
+
     super.initState();
+  }
+
+  void showLoan() {
+    _loanAnimationController.forward();
   }
 
   @override
@@ -98,7 +128,18 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
     return Stack(
       children: <Widget>[
         MenuGirl(_logoAnimationController.value == 1),
-        MenuBackground(backgroundTopMargin),
+        Positioned(
+          child: IgnorePointer(
+            child: Opacity(
+              opacity: _loanAnimationController.value,
+              child: Container(
+                color: redColor,
+              ),
+            ),
+          ),
+        ),
+        MenuBackground(
+            backgroundTopMargin - _loanAnimationController.value * 130),
         MenuLogo(logoPosition),
         MenuTile(
           title: "Use Conveniently",
@@ -120,7 +161,8 @@ class _MenuState extends State<Menu> with SingleTickerProviderStateMixin {
           positionTop: backgroundTopMargin + 250 + (1 - splashAnimation) * 600,
           image: AssetImage('assets/icons/piggy.png'),
         ),
-        ButtonsTile(positionTop: backgroundTopMargin + 410),
+        ButtonsTile(
+            positionTop: backgroundTopMargin + 410, onTapFunction: showLoan),
       ],
     );
   }

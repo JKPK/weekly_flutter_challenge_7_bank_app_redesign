@@ -11,6 +11,9 @@ import '../widgets/menu_logo.dart';
 import '../widgets/menu_tile.dart';
 import '../widgets/buttons_tile.dart';
 import '../widgets/loan_header.dart';
+import '../widgets/loan_logo.dart';
+import '../widgets/loan_amount.dart';
+import '../widgets/loan_timespan.dart';
 
 class Menu extends StatefulWidget {
   final StreamController<double> splashAnimationStreamController;
@@ -148,91 +151,43 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
         MenuBackground(
           backgroundTopMargin - _loanAnimationController.value * 130,
         ),
-        MenuLogo(logoPosition),
-        MenuTile(
-          title: "Use Conveniently",
-          subtitle: "Simplify access to desired operations.",
-          positionTop: backgroundTopMargin + 50 + (1 - splashAnimation) * 200,
-          image: AssetImage('assets/icons/power.png'),
-        ),
-        MenuTile(
-          title: "Control spending",
-          subtitle:
-              "We analyze your expenses and give advice on their optimization.",
-          positionTop: backgroundTopMargin + 150 + (1 - splashAnimation) * 400,
-          image: AssetImage('assets/icons/math.png'),
-        ),
-        MenuTile(
-          title: "Save and earn",
-          subtitle:
-              "Get an advice on how to get the cashback, interest and miles.",
-          positionTop: backgroundTopMargin + 250 + (1 - splashAnimation) * 600,
-          image: AssetImage('assets/icons/piggy.png'),
-        ),
-        ButtonsTile(
-          positionTop: backgroundTopMargin + 410,
-          onTapFunction: showLoan,
-        ),
+        if (_loanAnimationController.value < 1) MenuLogo(logoPosition),
+        if (_loanAnimationController.value < 1)
+          MenuTile(
+            title: "Use Conveniently",
+            subtitle: "Simplify access to desired operations.",
+            positionTop: backgroundTopMargin + 50 + (1 - splashAnimation) * 200,
+            image: AssetImage('assets/icons/power.png'),
+          ),
+        if (_loanAnimationController.value < 1)
+          MenuTile(
+            title: "Control spending",
+            subtitle:
+                "We analyze your expenses and give advice on their optimization.",
+            positionTop:
+                backgroundTopMargin + 150 + (1 - splashAnimation) * 400,
+            image: AssetImage('assets/icons/math.png'),
+          ),
+        if (_loanAnimationController.value < 1)
+          MenuTile(
+            title: "Save and earn",
+            subtitle:
+                "Get an advice on how to get the cashback, interest and miles.",
+            positionTop:
+                backgroundTopMargin + 250 + (1 - splashAnimation) * 600,
+            image: AssetImage('assets/icons/piggy.png'),
+          ),
+        if (_loanAnimationController.value < 1)
+          ButtonsTile(
+            positionTop: backgroundTopMargin + 410,
+            onTapFunction: showLoan,
+          ),
         if (_loanAnimationController.value == 1) LoanHeader(),
         if (_loanAnimationController.value == 1) LoanLogo(loanLogoPosition),
+        if (_loanAnimationController.value == 1) LoanAmount(loanLogoPosition.dy+70),
+        if (_loanAnimationController.value == 1) LoanTimespan(loanLogoPosition.dy+180),
       ],
     );
   }
 }
 
-class LoanLogo extends StatelessWidget {
-  final Offset logoPosition;
-  final int width = 200;
-  final int height = 50;
-
-  LoanLogo(this.logoPosition);
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: logoPosition.dy - height / 2,
-      left: logoPosition.dx - width / 2,
-      child: Container(
-        width: 200,
-        height: 50,
-        decoration: BoxDecoration(
-          color: orangeColor,
-          gradient: LinearGradient(
-            colors: [
-              orangeColor,
-              darkOrangeColor,
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-          borderRadius: BorderRadius.all(
-            const Radius.circular(10),
-          ),
-        ),
-        child: Center(
-          child: RichText(
-            text: TextSpan(
-              children: <TextSpan>[
-                TextSpan(
-                  text: "€22 000",
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                TextSpan(
-                  text: " in the end",
-                  style: TextStyle(
-                    fontSize: 17,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}

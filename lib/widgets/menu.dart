@@ -10,6 +10,7 @@ import '../widgets/menu_girl.dart';
 import '../widgets/menu_logo.dart';
 import '../widgets/menu_tile.dart';
 import '../widgets/buttons_tile.dart';
+import '../widgets/loan_header.dart';
 
 class Menu extends StatefulWidget {
   final StreamController<double> splashAnimationStreamController;
@@ -35,6 +36,7 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
 
   AnimationController _loanAnimationController;
   Animation<double> _loanAnimation;
+  Offset loanLogoPosition;
 
   @override
   void didChangeDependencies() {
@@ -70,6 +72,11 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
               40 +
               bigCircleRadius * math.sin(logoCircleAngle) -
               160 * _loanAnimationController.value);
+
+      loanLogoPosition = Offset(
+        MediaQuery.of(context).size.width / 2,
+        backgroundTopMargin - _loanAnimationController.value * 140,
+      );
     });
   }
 
@@ -139,7 +146,8 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
           ),
         ),
         MenuBackground(
-            backgroundTopMargin - _loanAnimationController.value * 130),
+          backgroundTopMargin - _loanAnimationController.value * 130,
+        ),
         MenuLogo(logoPosition),
         MenuTile(
           title: "Use Conveniently",
@@ -162,8 +170,69 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
           image: AssetImage('assets/icons/piggy.png'),
         ),
         ButtonsTile(
-            positionTop: backgroundTopMargin + 410, onTapFunction: showLoan),
+          positionTop: backgroundTopMargin + 410,
+          onTapFunction: showLoan,
+        ),
+        if (_loanAnimationController.value == 1) LoanHeader(),
+        if (_loanAnimationController.value == 1) LoanLogo(loanLogoPosition),
       ],
+    );
+  }
+}
+
+class LoanLogo extends StatelessWidget {
+  final Offset logoPosition;
+  final int width = 200;
+  final int height = 50;
+
+  LoanLogo(this.logoPosition);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: logoPosition.dy - height / 2,
+      left: logoPosition.dx - width / 2,
+      child: Container(
+        width: 200,
+        height: 50,
+        decoration: BoxDecoration(
+          color: orangeColor,
+          gradient: LinearGradient(
+            colors: [
+              orangeColor,
+              darkOrangeColor,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          borderRadius: BorderRadius.all(
+            const Radius.circular(10),
+          ),
+        ),
+        child: Center(
+          child: RichText(
+            text: TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: "€22 000",
+                  style: TextStyle(
+                    fontSize: 17,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                TextSpan(
+                  text: " in the end",
+                  style: TextStyle(
+                    fontSize: 17,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

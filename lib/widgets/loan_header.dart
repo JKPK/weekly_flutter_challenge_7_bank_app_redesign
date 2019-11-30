@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import '../styleguide.dart';
 
 class LoanHeader extends StatelessWidget {
+  final double loanInterestRate;
+
+  LoanHeader(this.loanInterestRate);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -34,7 +38,7 @@ class LoanHeader extends StatelessWidget {
                 ),
                 Container(
                   child: Text(
-                    "15.50%",
+                    "${loanInterestRate}%",
                     style: TextStyle(
                       color: almostWhiteColor,
                       fontSize: 40,

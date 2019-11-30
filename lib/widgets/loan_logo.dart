@@ -6,8 +6,12 @@ class LoanLogo extends StatelessWidget {
   final Offset logoPosition;
   final int width = 200;
   final int height = 50;
+  final double loanReturn;
 
-  LoanLogo(this.logoPosition);
+  LoanLogo(
+    this.logoPosition,
+    this.loanReturn,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,7 @@ class LoanLogo extends StatelessWidget {
             text: TextSpan(
               children: <TextSpan>[
                 TextSpan(
-                  text: "€22 000",
+                  text: "€${loanReturn.toInt()}",
                   style: TextStyle(
                     fontSize: 17,
                     color: Colors.black,

@@ -35,12 +35,45 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
   double splashAnimation = 0;
   bool showLogo = false;
 
+  double loanBase = 20000;
+  double loanReturn = 0;
+  double loanBaseInterestRate = 12.5;
+  double loanInterestRate = 15.5;
+  double timespanInterestRate = 3;
+  double pretermInterestRate = 0;
+  double payoutInterestRate = 0;
+
   AnimationController _logoAnimationController;
   Animation<double> _logoAnimation;
 
   AnimationController _loanAnimationController;
   Animation<double> _loanAnimation;
   Offset loanLogoPosition;
+
+  void calculateLoanReturn() {
+    setState(() {
+      loanInterestRate = loanBaseInterestRate +
+          timespanInterestRate +
+          pretermInterestRate +
+          payoutInterestRate;
+      loanReturn = loanBase * (100 + loanInterestRate) / 100;
+    });
+  }
+
+  void updateTimespanInterestRate(value) {
+    timespanInterestRate = value;
+    calculateLoanReturn();
+  }
+
+  void updatePretermInterestRate(value) {
+    pretermInterestRate = value;
+    calculateLoanReturn();
+  }
+
+  void updatePayoutInterestRate(value) {
+    payoutInterestRate = value;
+    calculateLoanReturn();
+  }
 
   @override
   void didChangeDependencies() {
@@ -86,6 +119,8 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    calculateLoanReturn();
+
     widget.splashAnimationStreamController.stream
       ..listen((data) {
         setState(() {
@@ -184,12 +219,16 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
             onTapFunction: showLoan,
             variant: 0,
           ),
-        if (_loanAnimationController.value == 1) LoanHeader(),
-        if (_loanAnimationController.value == 1) LoanLogo(loanLogoPosition),
+        if (_loanAnimationController.value == 1) LoanHeader(loanInterestRate),
+        if (_loanAnimationController.value == 1)
+          LoanLogo(loanLogoPosition, loanReturn),
         if (_loanAnimationController.value == 1)
           LoanAmount(loanLogoPosition.dy + 70),
         if (_loanAnimationController.value == 1)
-          LoanTimespan(loanLogoPosition.dy + 180),
+          LoanTimespan(
+            loanLogoPosition.dy + 180,
+            updateTimespanInterestRate,
+          ),
         if (_loanAnimationController.value == 1)
           LoanCheckbox(
             loanLogoPosition.dy + 320,
@@ -198,16 +237,19 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
               "+0.5",
               "%)",
             ],
+            updatePretermInterestRate,
+            0.5,
           ),
         if (_loanAnimationController.value == 1)
           LoanCheckbox(
-            loanLogoPosition.dy + 370,
-            [
-              "Without monthly payout (",
-              "+0.25",
-              "%)",
-            ],
-          ),
+              loanLogoPosition.dy + 370,
+              [
+                "Without monthly payout (",
+                "+0.25",
+                "%)",
+              ],
+              updatePayoutInterestRate,
+              0.25),
         if (_loanAnimationController.value == 1)
           ButtonsTile(
               positionTop: backgroundTopMargin + 410,

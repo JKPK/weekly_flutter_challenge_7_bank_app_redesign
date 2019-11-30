@@ -5,8 +5,15 @@ import '../styleguide.dart';
 class LoanCheckbox extends StatefulWidget {
   final double positionTop;
   List<String> texts;
+  final Function updateInterestRateFunction;
+  final double interestRate;
 
-  LoanCheckbox(this.positionTop, this.texts);
+  LoanCheckbox(
+    this.positionTop,
+    this.texts,
+    this.updateInterestRateFunction,
+    this.interestRate,
+  );
 
   @override
   _LoanCheckboxState createState() => _LoanCheckboxState();
@@ -33,6 +40,7 @@ class _LoanCheckboxState extends State<LoanCheckbox> {
                   onChanged: (bool value) {
                     setState(() {
                       isSelected = !isSelected;
+                      widget.updateInterestRateFunction(isSelected ? widget.interestRate : 0.0);
                     });
                   },
                   value: isSelected,

@@ -4,8 +4,12 @@ import '../styleguide.dart';
 
 class LoanTimespan extends StatefulWidget {
   final double positionTop;
+  final Function updateTimespanInterestRateFunction;
 
-  LoanTimespan(this.positionTop);
+  LoanTimespan(
+    this.positionTop,
+    this.updateTimespanInterestRateFunction,
+  );
 
   @override
   _LoanTimespanState createState() => _LoanTimespanState();
@@ -13,7 +17,8 @@ class LoanTimespan extends StatefulWidget {
 
 class _LoanTimespanState extends State<LoanTimespan> {
   double rating = 0;
-  List<int> ratings = [3, 6, 12, 24];
+  List<int> ratings = [3, 6, 12, 36];
+  List<double> monthsInterestsRates = [1, 0.75, 0.5, 0.25];
   int months = 3;
 
   @override
@@ -48,11 +53,13 @@ class _LoanTimespanState extends State<LoanTimespan> {
                       rating = selected;
                       months = ratings[rating.toInt()];
                     });
+                    widget.updateTimespanInterestRateFunction(monthsInterestsRates[rating.toInt()]*months);
                   },
                   divisions: 3,
                   label: "$months months"),
             ),
-            Padding(padding: const EdgeInsets.symmetric(horizontal: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

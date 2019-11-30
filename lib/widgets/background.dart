@@ -42,7 +42,7 @@ class _BackgroundState extends State<Background> with TickerProviderStateMixin {
     _logoAnimationController = AnimationController(
       vsync: this,
       duration: Duration(
-        milliseconds: 1500,
+        milliseconds: 1000,
       ),
     );
 

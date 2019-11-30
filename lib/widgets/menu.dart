@@ -31,6 +31,7 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
   Offset bigCircleCentre;
   double bigCircleRadius;
   double logoCircleAngle;
+  double loanCircleAngle;
   Offset logoPosition;
   double splashAnimation = 0;
   double loanAnimation = 0;
@@ -111,10 +112,18 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
               bigCircleRadius * math.sin(logoCircleAngle) -
               160 * _loanAnimationController.value);
 
+      loanCircleAngle =
+          math.pi * .3 + math.pi * .2 * _loanAnimationController.value;
       loanLogoPosition = Offset(
-        MediaQuery.of(context).size.width / 2,
-        backgroundTopMargin - _loanAnimationController.value * 140,
-      );
+          bigCircleCentre.dx - 0 + bigCircleRadius * math.cos(loanCircleAngle),
+          bigCircleCentre.dy -
+              -25 +
+              bigCircleRadius * math.sin(loanCircleAngle) -
+              160 * _loanAnimationController.value);
+      // loanLogoPosition = Offset(
+      //   MediaQuery.of(context).size.width / 2,
+      //   backgroundTopMargin - _loanAnimationController.value * 140,
+      // );
     });
   }
 
@@ -241,14 +250,16 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
               ? ((1 - _loanAnimationController.value * 2))
               : 0,
         ),
-        if (_loanAnimationController.value == 1)
+        //if (_loanAnimationController.value == 1)
           LoanHeader(
             loanInterestRate,
             hideLoan,
+            _loanAnimationController.value==1
           ),
         LoanLogo(
           loanLogoPosition,
           loanReturn,
+          _loanAnimationController.value,
         ),
         LoanAmount(
           loanLogoPosition.dy + 70 + (1 - _loanAnimationController.value) * 50,

@@ -1,7 +1,7 @@
 # weekly_flutter_challenge_7_bank_app_redesign
 
 ## Challenge summary:
-This challenge is about recreating Halo Mobile's designs: [Alfa-Bank Ukraine App Redesign](https://api.flutter.dev/flutter/material/Theme-class.html). 
+This challenge is about recreating Halo Mobile's design: [Alfa-Bank Ukraine App Redesign](https://api.flutter.dev/flutter/material/Theme-class.html). 
 
 ## Things that I have learned during the development of this challenge app:
 1. [BackdropFilter](https://api.flutter.dev/flutter/widgets/BackdropFilter-class.html) & [ImageFilter](https://api.flutter.dev/flutter/dart-ui/ImageFilter-class.html).

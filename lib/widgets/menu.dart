@@ -14,6 +14,7 @@ import '../widgets/loan_header.dart';
 import '../widgets/loan_logo.dart';
 import '../widgets/loan_amount.dart';
 import '../widgets/loan_timespan.dart';
+import '../widgets/loan_checkbox.dart';
 
 class Menu extends StatefulWidget {
   final StreamController<double> splashAnimationStreamController;
@@ -184,10 +185,29 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
           ),
         if (_loanAnimationController.value == 1) LoanHeader(),
         if (_loanAnimationController.value == 1) LoanLogo(loanLogoPosition),
-        if (_loanAnimationController.value == 1) LoanAmount(loanLogoPosition.dy+70),
-        if (_loanAnimationController.value == 1) LoanTimespan(loanLogoPosition.dy+180),
+        if (_loanAnimationController.value == 1)
+          LoanAmount(loanLogoPosition.dy + 70),
+        if (_loanAnimationController.value == 1)
+          LoanTimespan(loanLogoPosition.dy + 180),
+        if (_loanAnimationController.value == 1)
+          LoanCheckbox(
+            loanLogoPosition.dy + 320,
+            [
+              "Without pre-term closing (",
+              "+0.5",
+              "%)",
+            ],
+          ),
+        if (_loanAnimationController.value == 1)
+          LoanCheckbox(
+            loanLogoPosition.dy + 370,
+            [
+              "Without monthly payout (",
+              "+0.25",
+              "%)",
+            ],
+          ),
       ],
     );
   }
 }
-

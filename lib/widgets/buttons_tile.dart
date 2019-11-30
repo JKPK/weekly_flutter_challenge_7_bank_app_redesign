@@ -6,42 +6,49 @@ class ButtonsTile extends StatelessWidget {
   final double positionTop;
   final Function onTapFunction;
   final int variant;
+  final double opacity;
 
   ButtonsTile({
     this.positionTop,
     this.onTapFunction,
     this.variant,
+    this.opacity,
   });
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
       top: positionTop,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Row(
-          children: <Widget>[
-            if (variant == 0)
-              Button(
-                text: "Login",
-                color: seriouslyBlueColor,
-                callbackFunction: onTapFunction,
+      child: (opacity > 0)
+          ? Opacity(
+              opacity: opacity,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  children: <Widget>[
+                    if (variant == 0)
+                      Button(
+                        text: "Login",
+                        color: seriouslyBlueColor,
+                        callbackFunction: onTapFunction,
+                      ),
+                    if (variant == 0)
+                      Button(
+                        text: "Order a card",
+                        color: redColor,
+                        callbackFunction: onTapFunction,
+                      ),
+                    if (variant == 1)
+                      Button(
+                          text: "NEXT",
+                          color: seriouslyBlueColor,
+                          callbackFunction: onTapFunction,
+                          fullsize: true),
+                  ],
+                ),
               ),
-            if (variant == 0)
-              Button(
-                text: "Order a card",
-                color: redColor,
-                callbackFunction: onTapFunction,
-              ),
-            if (variant == 1)
-              Button(
-                  text: "NEXT",
-                  color: seriouslyBlueColor,
-                  callbackFunction: onTapFunction,
-                  fullsize: true),
-          ],
-        ),
-      ),
+            )
+          : Container(),
     );
   }
 }

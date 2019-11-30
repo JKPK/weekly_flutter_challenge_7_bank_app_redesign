@@ -4,8 +4,12 @@ import '../styleguide.dart';
 
 class LoanHeader extends StatelessWidget {
   final double loanInterestRate;
+  final Function onTapFunction;
 
-  LoanHeader(this.loanInterestRate);
+  LoanHeader(
+    this.loanInterestRate,
+    this.onTapFunction,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +18,13 @@ class LoanHeader extends StatelessWidget {
         Positioned(
           top: 55,
           left: 20,
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: almostWhiteColor,
-            size: 20,
+          child: IconButton(
+            onPressed: onTapFunction,
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: almostWhiteColor,
+              size: 20,
+            ),
           ),
         ),
         Positioned(

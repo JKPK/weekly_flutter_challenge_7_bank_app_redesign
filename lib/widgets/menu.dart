@@ -33,6 +33,7 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
   double logoCircleAngle;
   Offset logoPosition;
   double splashAnimation = 0;
+  double loanAnimation = 0;
   bool showLogo = false;
 
   double loanBase = 20000;
@@ -158,6 +159,7 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
       parent: _loanAnimationController,
       curve: Curves.easeIn,
     )..addListener(() {
+        loanAnimation = _loanAnimationController.value;
         updateLogoPosition();
       });
 
@@ -166,6 +168,10 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
 
   void showLoan() {
     _loanAnimationController.forward();
+  }
+
+  void hideLoan() {
+    _loanAnimationController.reverse();
   }
 
   @override
@@ -188,73 +194,115 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
           backgroundTopMargin - _loanAnimationController.value * 130,
         ),
         if (_loanAnimationController.value < 1) MenuLogo(logoPosition),
-        if (_loanAnimationController.value < 1)
-          MenuTile(
-            title: "Use Conveniently",
-            subtitle: "Simplify access to desired operations.",
-            positionTop: backgroundTopMargin + 50 + (1 - splashAnimation) * 200,
-            image: AssetImage('assets/icons/power.png'),
-          ),
-        if (_loanAnimationController.value < 1)
-          MenuTile(
-            title: "Control spending",
-            subtitle:
-                "We analyze your expenses and give advice on their optimization.",
-            positionTop:
-                backgroundTopMargin + 150 + (1 - splashAnimation) * 400,
-            image: AssetImage('assets/icons/math.png'),
-          ),
-        if (_loanAnimationController.value < 1)
-          MenuTile(
-            title: "Save and earn",
-            subtitle:
-                "Get an advice on how to get the cashback, interest and miles.",
-            positionTop:
-                backgroundTopMargin + 250 + (1 - splashAnimation) * 600,
-            image: AssetImage('assets/icons/piggy.png'),
-          ),
-        if (_loanAnimationController.value < 1)
-          ButtonsTile(
-            positionTop: backgroundTopMargin + 410,
-            onTapFunction: showLoan,
-            variant: 0,
-          ),
-        if (_loanAnimationController.value == 1) LoanHeader(loanInterestRate),
+        MenuTile(
+          title: "Use Conveniently",
+          subtitle: "Simplify access to desired operations.",
+          positionTop: backgroundTopMargin +
+              50 +
+              (1 - splashAnimation) * 200 +
+              _loanAnimationController.value * 200,
+          image: AssetImage('assets/icons/power.png'),
+          opacity: _loanAnimationController.value < .5
+              ? ((1 - _loanAnimationController.value * 2))
+              : 0,
+        ),
+        MenuTile(
+          title: "Control spending",
+          subtitle:
+              "We analyze your expenses and give advice on their optimization.",
+          positionTop: backgroundTopMargin +
+              150 +
+              (1 - splashAnimation) * 400 +
+              _loanAnimationController.value * 400,
+          image: AssetImage('assets/icons/math.png'),
+          opacity: _loanAnimationController.value < .5
+              ? ((1 - _loanAnimationController.value * 2))
+              : 0,
+        ),
+        MenuTile(
+          title: "Save and earn",
+          subtitle:
+              "Get an advice on how to get the cashback, interest and miles.",
+          positionTop: backgroundTopMargin +
+              250 +
+              (1 - splashAnimation) * 600 +
+              _loanAnimationController.value * 600,
+          image: AssetImage('assets/icons/piggy.png'),
+          opacity: _loanAnimationController.value < .5
+              ? ((1 - _loanAnimationController.value * 2))
+              : 0,
+        ),
+        ButtonsTile(
+          positionTop:
+              backgroundTopMargin + 410 + _loanAnimationController.value * 800,
+          onTapFunction: showLoan,
+          variant: 0,
+          opacity: _loanAnimationController.value < .5
+              ? ((1 - _loanAnimationController.value * 2))
+              : 0,
+        ),
         if (_loanAnimationController.value == 1)
-          LoanLogo(loanLogoPosition, loanReturn),
-        if (_loanAnimationController.value == 1)
-          LoanAmount(loanLogoPosition.dy + 70),
-        if (_loanAnimationController.value == 1)
-          LoanTimespan(
-            loanLogoPosition.dy + 180,
-            updateTimespanInterestRate,
+          LoanHeader(
+            loanInterestRate,
+            hideLoan,
           ),
-        if (_loanAnimationController.value == 1)
-          LoanCheckbox(
-            loanLogoPosition.dy + 320,
-            [
-              "Without pre-term closing (",
-              "+0.5",
-              "%)",
-            ],
-            updatePretermInterestRate,
-            0.5,
-          ),
-        if (_loanAnimationController.value == 1)
-          LoanCheckbox(
-              loanLogoPosition.dy + 370,
-              [
-                "Without monthly payout (",
-                "+0.25",
-                "%)",
-              ],
-              updatePayoutInterestRate,
-              0.25),
-        if (_loanAnimationController.value == 1)
-          ButtonsTile(
-              positionTop: backgroundTopMargin + 410,
-              onTapFunction: () {},
-              variant: 1),
+        LoanLogo(
+          loanLogoPosition,
+          loanReturn,
+        ),
+        LoanAmount(
+          loanLogoPosition.dy + 70 + (1 - _loanAnimationController.value) * 50,
+          _loanAnimationController.value > .5
+              ? ((_loanAnimationController.value - .5) * 2)
+              : 0.0,
+        ),
+        LoanTimespan(
+          loanLogoPosition.dy +
+              180 +
+              (1 - _loanAnimationController.value) * 200,
+          updateTimespanInterestRate,
+          _loanAnimationController.value > .5
+              ? ((_loanAnimationController.value - .5) * 2)
+              : 0.0,
+        ),
+        LoanCheckbox(
+          loanLogoPosition.dy +
+              320 +
+              (1 - _loanAnimationController.value) * 400,
+          [
+            "Without pre-term closing (",
+            "+0.5",
+            "%)",
+          ],
+          updatePretermInterestRate,
+          0.5,
+          _loanAnimationController.value > .5
+              ? ((_loanAnimationController.value - .5) * 2)
+              : 0.0,
+        ),
+        LoanCheckbox(
+          loanLogoPosition.dy +
+              370 +
+              (1 - _loanAnimationController.value) * 800,
+          [
+            "Without monthly payout (",
+            "+0.25",
+            "%)",
+          ],
+          updatePayoutInterestRate,
+          0.25,
+          _loanAnimationController.value > .5
+              ? ((_loanAnimationController.value - .5) * 2)
+              : 0.0,
+        ),
+        ButtonsTile(
+          positionTop: backgroundTopMargin +
+              410 +
+              (1 - _loanAnimationController.value) * 800,
+          onTapFunction: hideLoan,
+          variant: 1,
+          opacity: _loanAnimationController.value,
+        ),
       ],
     );
   }

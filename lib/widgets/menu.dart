@@ -182,6 +182,7 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
           ButtonsTile(
             positionTop: backgroundTopMargin + 410,
             onTapFunction: showLoan,
+            variant: 0,
           ),
         if (_loanAnimationController.value == 1) LoanHeader(),
         if (_loanAnimationController.value == 1) LoanLogo(loanLogoPosition),
@@ -207,6 +208,11 @@ class _MenuState extends State<Menu> with TickerProviderStateMixin {
               "%)",
             ],
           ),
+        if (_loanAnimationController.value == 1)
+          ButtonsTile(
+              positionTop: backgroundTopMargin + 410,
+              onTapFunction: () {},
+              variant: 1),
       ],
     );
   }
